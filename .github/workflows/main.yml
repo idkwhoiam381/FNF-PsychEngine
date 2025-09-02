@@ -50,14 +50,14 @@ jobs:
           haxelib --quiet install openfl 9.1.0
           haxelib --quiet --never install flixel 4.11.0
           haxelib run lime setup flixel
-          haxelib --quiet install flixel-tools
-          haxelib --quiet install flixel-ui
+          haxelib --quiet install flixel-tools 1.5.1
+          haxelib --quiet install flixel-ui 2.4.0
           haxelib --quiet install flixel-addons 2.11.0
           haxelib --quiet install tjson
           haxelib --quiet install hxjsonast
           haxelib --quiet install hscript
           haxelib git hxCodec https://github.com/SPLCoding/hxCodec-but-it-works-xd.git --quiet
-          haxelib git linc_luajit https://github.com/beihu235/linc_luajit --quiet
+          haxelib git linc_luajit https://github.com/Moxie-Stuff/linc_luajit --quiet
           haxelib git extension-androidtools https://github.com/MaysLastPlay77/extension-androidtools --quiet
           haxelib --quiet install hxcpp-debug-server
           haxelib list
