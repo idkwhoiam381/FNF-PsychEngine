@@ -26,8 +26,8 @@ jobs:
         uses: actions/checkout@main
 
       - name: Setup Android NDK
-        uses: nttld/setup-ndk@main
         id: setup-ndk
+        uses: nttld/setup-ndk@main
         with:
           ndk-version: r15c
 
