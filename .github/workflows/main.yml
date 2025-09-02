@@ -6,10 +6,10 @@ name: Build
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  #push:
+    #branches: [ main ]
+  #pull_request:
+    #branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -48,21 +48,21 @@ jobs:
       - name: Install Haxelib
         run: |
           haxelib setup ~/haxelib
-          haxelib install hxcpp 4.2.1 > /dev/null
-          haxelib install lime 7.9.0
-          haxelib install openfl 9.1.0
-          haxelib --never install flixel 4.11.0
+          haxelib --quiet install hxcpp 4.2.1 > /dev/null
+          haxelib --quiet install lime 7.9.0
+          haxelib --quiet install openfl 9.1.0
+          haxelib --quiet --never install flixel 4.11.0
           haxelib run lime setup flixel
-          haxelib install flixel-tools
-          haxelib install flixel-ui
-          haxelib install flixel-addons 2.11.0
-          haxelib install tjson
-          haxelib install hxjsonast
-          haxelib install hscript
-          haxelib git hxCodec https://github.com/SPLCoding/hxCodec-but-it-works-xd.git
-          haxelib git linc_luajit https://github.com/Sirox228/linc_luajit
-          haxelib git extension-androidtools https://github.com/MaysLastPlay77/extension-androidtools
-          haxelib install hxcpp-debug-server
+          haxelib --quiet install flixel-tools
+          haxelib --quiet install flixel-ui
+          haxelib --quiet install flixel-addons 2.11.0
+          haxelib --quiet install tjson
+          haxelib --quiet install hxjsonast
+          haxelib --quiet install hscript
+          haxelib git hxCodec https://github.com/SPLCoding/hxCodec-but-it-works-xd.git --quiet
+          haxelib git linc_luajit https://github.com/beihu235/linc_luajit --quiet
+          haxelib git extension-androidtools https://github.com/MaysLastPlay77/extension-androidtools --quiet
+          haxelib --quiet install hxcpp-debug-server
           haxelib list
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
