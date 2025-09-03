@@ -158,6 +158,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.changeValue = 0.1;
 		addOption(option);
 
+		var option:Option = new Option('Character Select', //Name
+			'Select your character in freeplay?', //Description
+			'charSelect', //Save data variable name
+			'bool', //Variable type
+			false); //Default value
+		addOption(option);
+
 		super();
 	}
 
