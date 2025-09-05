@@ -13,9 +13,11 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.math.FlxMath;
+import flixel.addons.display.FlxBackdrop;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import openfl.display.BitmapData;
 import lime.app.Application;
 import Achievements;
 import editors.MasterEditorMenu;
@@ -31,14 +33,14 @@ class MainMenuState extends MusicBeatState
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	private var camGame:FlxCamera;
 	private var camAchievement:FlxCamera;
-	
+
 	var optionShit:Array<String> = [
 		'story_mode',
 		'freeplay',
 		#if MODS_ALLOWED 'mods', #end
-		#if ACHIEVEMENTS_ALLOWED 'awards', #end
-		'credits',
-		#if !switch 'donate', #end
+		//#if ACHIEVEMENTS_ALLOWED 'awards', #end
+		//'credits',
+		//#if !switch 'donate', #end
 		'options'
 	];
 
@@ -46,11 +48,21 @@ class MainMenuState extends MusicBeatState
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;
 	var debugKeys:Array<FlxKey>;
+	var backdrop:FlxBackdrop;
+
+	public static var firstStart:Bool = true;
+
+	public static var finishedFunnyMove:Bool = false;
+
+	public static var mouseGraphic:BitmapData = BitmapData.fromFile('assets/shared/images/custommouse/mouse.png');
 
 	override function create()
 	{
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
+
+		FlxG.mouse.visible = true;
+        FlxG.mouse.load(mouseGraphic,1.1);
 
 		#if MODS_ALLOWED
 		Paths.pushGlobalMods();
@@ -99,6 +111,13 @@ class MainMenuState extends MusicBeatState
 		magenta.antialiasing = ClientPrefs.globalAntialiasing;
 		magenta.color = 0xFFfd719b;
 		add(magenta);
+
+		var backdrop = new FlxBackdrop(Paths.image('CoolBack'), XY, 0, 0);
+		backdrop.velocity.set(50,50);
+		backdrop.screenCenter(Y);
+		backdrop.alpha = 0.25;
+		backdrop.blend = BlendMode.MULTIPLY;
+		add(backdrop);
 		
 		// magenta.scrollFactor.set();
 
@@ -113,9 +132,7 @@ class MainMenuState extends MusicBeatState
 		for (i in 0...optionShit.length)
 		{
 			var offset:Float = 108 - (Math.max(optionShit.length, 4) - 4) * 80;
-			var menuItem:FlxSprite = new FlxSprite(0, (i * 140)  + offset);
-			menuItem.scale.x = scale;
-			menuItem.scale.y = scale;
+			var menuItem:FlxSprite = new FlxSprite(0, FlxG.height * 1.6);
 			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[i]);
 			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
 			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
@@ -129,9 +146,22 @@ class MainMenuState extends MusicBeatState
 			menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 			//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 			menuItem.updateHitbox();
+			if (firstStart)
+				FlxTween.tween(menuItem, {y: 60 + (i * 160)}, 1 + (i * 0.25), {
+					ease: FlxEase.expoInOut,
+					onComplete: function(flxTween:FlxTween)
+					{
+						finishedFunnyMove = true;
+						changeItem();
+					}
+				});
+			else
+				menuItem.y = 60 + (i * 160);
 		}
 
-		FlxG.camera.follow(camFollowPos, null, 1);
+		firstStart = false;
+
+		FlxG.camera.follow(camFollowPos, null, 0.60 * 60);
 
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Psych Engine v" + psychEngineVersion, 12);
 		versionShit.scrollFactor.set();
@@ -281,7 +311,9 @@ class MainMenuState extends MusicBeatState
 
 	function changeItem(huh:Int = 0)
 	{
-		curSelected += huh;
+		if (finishedFunnyMove)
+		{
+			curSelected += huh;
 
 		if (curSelected >= menuItems.length)
 			curSelected = 0;
@@ -293,7 +325,7 @@ class MainMenuState extends MusicBeatState
 			spr.animation.play('idle');
 			spr.updateHitbox();
 
-			if (spr.ID == curSelected)
+			if (spr.ID == curSelected && finishedFunnyMove)
 			{
 				spr.animation.play('selected');
 				var add:Float = 0;
