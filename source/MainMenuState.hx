@@ -112,11 +112,10 @@ class MainMenuState extends MusicBeatState
 		magenta.color = 0xFFfd719b;
 		add(magenta);
 
-		var backdrop = new FlxBackdrop(Paths.image('CoolBack'), XY, 0, 0);
+		var backdrop = new FlxBackdrop(Paths.image('CoolBack'), 0, 0, true, true);
 		backdrop.velocity.set(50,50);
 		backdrop.screenCenter(Y);
 		backdrop.alpha = 0.25;
-		backdrop.blend = BlendMode.MULTIPLY;
 		add(backdrop);
 		
 		// magenta.scrollFactor.set();
