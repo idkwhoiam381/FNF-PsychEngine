@@ -171,7 +171,7 @@ class MainMenuState extends MusicBeatState
 	function giveAchievement() {
 		add(new AchievementObject('friday_night_play', camAchievement));
 		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-		trace('Giving achievement "friday_night_play"');
+		//trace('Giving achievement "friday_night_play"');
 	}
 	#end
 
