@@ -4025,8 +4025,8 @@ class PlayState extends MusicBeatState
 				{
 					var difficulty:String = CoolUtil.getDifficultyFilePath();
 
-					trace('LOADING NEXT SONG');
-					trace(Paths.formatToSongPath(PlayState.storyPlaylist[0]) + difficulty);
+					//trace('LOADING NEXT SONG');
+					//trace(Paths.formatToSongPath(PlayState.storyPlaylist[0]) + difficulty);
 
 					var winterHorrorlandNext = (Paths.formatToSongPath(SONG.song) == "eggnog");
 					if (winterHorrorlandNext)
@@ -4062,7 +4062,7 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				trace('WENT BACK TO FREEPLAY??');
+				//trace('WENT BACK TO FREEPLAY??');
 				WeekData.loadTheFirstEnabledMod();
 				cancelMusicFadeTween();
 				if(FlxTransitionableState.skipNextTransIn) {
